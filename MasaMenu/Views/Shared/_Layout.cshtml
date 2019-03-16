@@ -1,0 +1,47 @@
+﻿<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link href="~/Content/css/Layout.css" rel="stylesheet" />
+<script src="~/Scripts/js/Layout.js"></script>
+
+<div id="wrapper">
+    <div class="overlay"></div>
+    <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+        <ul class="nav sidebar-nav">
+            <li class="sidebar-brand">
+                <a href="#">
+                    MASA MENÜ
+                </a>
+            </li>
+            <li>
+                 @Html.ActionLink("Masalar", "Index", "Home")
+            </li>
+            <li>
+                <a href="#">Urunler Ayarı</a>
+            </li>
+            <li>
+                <a href="#">Masa Ayarı</a>
+            </li>
+            <li>
+                <a herf="#">Rapaorlama</a>
+            </li>
+            <li>
+                @Html.ActionLink("Çıkış","Logout","Login")
+            </li>
+        </ul>
+    </nav>
+    <div id="page-content-wrapper">
+        <button type="button" class="hamburger is-closed" data-toggle="offcanvas">
+            <span class="hamb-top"></span>
+            <span class="hamb-middle"></span>
+            <span class="hamb-bottom"></span>
+        </button>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>   
+</div>

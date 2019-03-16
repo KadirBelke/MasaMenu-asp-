@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MasaMenuModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="grup">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="adi" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="masalar" Relationship="Self.FK_masalar_grup" FromRole="grup" ToRole="masalar" />
+  </EntityType>
+  <EntityType Name="hesap">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Total" Type="Double" Nullable="false" />
+    <Property Name="gun" Type="Int32" Nullable="false" />
+    <Property Name="ay" Type="Int32" Nullable="false" />
+    <Property Name="yil" Type="Int32" Nullable="false" />
+    <Property Name="saat" Type="Int32" Nullable="false" />
+    <Property Name="dakika" Type="Int32" Nullable="false" />
+    <Property Name="saniye" Type="Int32" Nullable="false" />
+    <Property Name="MId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="masalar" Relationship="Self.fk_hesap" FromRole="hesap" ToRole="masalar" />
+  </EntityType>
+  <EntityType Name="kategori">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="adi" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="urunler" Relationship="Self.FK__urunler__kId__5165187F" FromRole="kategori" ToRole="urunler" />
+  </EntityType>
+  <EntityType Name="masalar">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="adi" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="gId" Type="Int32" />
+    <NavigationProperty Name="grup" Relationship="Self.FK_masalar_grup" FromRole="masalar" ToRole="grup" />
+    <NavigationProperty Name="hesap" Relationship="Self.fk_hesap" FromRole="masalar" ToRole="hesap" />
+    <NavigationProperty Name="siparis" Relationship="Self.FK__siparis__masa_id__5629CD9C" FromRole="masalar" ToRole="siparis" />
+  </EntityType>
+  <EntityType Name="personel">
+    <Key>
+      <PropertyRef Name="pId" />
+    </Key>
+    <Property Name="pId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="pName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="pPass" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="yetki" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="siparis">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="masa_id" Type="Int32" />
+    <Property Name="urun_id" Type="Int32" />
+    <Property Name="zaman" Type="String" MaxLength="5" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="masalar" Relationship="Self.FK__siparis__masa_id__5629CD9C" FromRole="siparis" ToRole="masalar" />
+    <NavigationProperty Name="urunler" Relationship="Self.FK__siparis__urun_id__571DF1D5" FromRole="siparis" ToRole="urunler" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="urunler">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="kId" Type="Int32" Nullable="false" />
+    <Property Name="ad" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="fiyati" Type="Double" />
+    <NavigationProperty Name="kategori" Relationship="Self.FK__urunler__kId__5165187F" FromRole="urunler" ToRole="kategori" />
+    <NavigationProperty Name="siparis" Relationship="Self.FK__siparis__urun_id__571DF1D5" FromRole="urunler" ToRole="siparis" />
+  </EntityType>
+  <Association Name="FK_masalar_grup">
+    <End Role="grup" Type="Self.grup" Multiplicity="0..1" />
+    <End Role="masalar" Type="Self.masalar" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="grup">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="masalar">
+        <PropertyRef Name="gId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_hesap">
+    <End Role="masalar" Type="Self.masalar" Multiplicity="1" />
+    <End Role="hesap" Type="Self.hesap" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="masalar">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="hesap">
+        <PropertyRef Name="MId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__urunler__kId__5165187F">
+    <End Role="kategori" Type="Self.kategori" Multiplicity="1" />
+    <End Role="urunler" Type="Self.urunler" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="kategori">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="urunler">
+        <PropertyRef Name="kId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__siparis__masa_id__5629CD9C">
+    <End Role="masalar" Type="Self.masalar" Multiplicity="0..1" />
+    <End Role="siparis" Type="Self.siparis" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="masalar">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="siparis">
+        <PropertyRef Name="masa_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__siparis__urun_id__571DF1D5">
+    <End Role="urunler" Type="Self.urunler" Multiplicity="0..1" />
+    <End Role="siparis" Type="Self.siparis" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="urunler">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="siparis">
+        <PropertyRef Name="urun_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MasaMenuEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="grup" EntityType="Self.grup" />
+    <EntitySet Name="hesap" EntityType="Self.hesap" />
+    <EntitySet Name="kategori" EntityType="Self.kategori" />
+    <EntitySet Name="masalar" EntityType="Self.masalar" />
+    <EntitySet Name="personel" EntityType="Self.personel" />
+    <EntitySet Name="siparis" EntityType="Self.siparis" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="urunler" EntityType="Self.urunler" />
+    <AssociationSet Name="FK_masalar_grup" Association="Self.FK_masalar_grup">
+      <End Role="grup" EntitySet="grup" />
+      <End Role="masalar" EntitySet="masalar" />
+    </AssociationSet>
+    <AssociationSet Name="fk_hesap" Association="Self.fk_hesap">
+      <End Role="masalar" EntitySet="masalar" />
+      <End Role="hesap" EntitySet="hesap" />
+    </AssociationSet>
+    <AssociationSet Name="FK__urunler__kId__5165187F" Association="Self.FK__urunler__kId__5165187F">
+      <End Role="kategori" EntitySet="kategori" />
+      <End Role="urunler" EntitySet="urunler" />
+    </AssociationSet>
+    <AssociationSet Name="FK__siparis__masa_id__5629CD9C" Association="Self.FK__siparis__masa_id__5629CD9C">
+      <End Role="masalar" EntitySet="masalar" />
+      <End Role="siparis" EntitySet="siparis" />
+    </AssociationSet>
+    <AssociationSet Name="FK__siparis__urun_id__571DF1D5" Association="Self.FK__siparis__urun_id__571DF1D5">
+      <End Role="urunler" EntitySet="urunler" />
+      <End Role="siparis" EntitySet="siparis" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

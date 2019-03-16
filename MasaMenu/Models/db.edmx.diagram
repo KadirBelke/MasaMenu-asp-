@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4b3b66b3e369450fa39448a6ae9e804f" Name="Diagram1">
+        <EntityTypeShape EntityType="MasaMenuModel.grup" Width="1.5" PointX="0.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasaMenuModel.hesap" Width="1.5" PointX="5.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasaMenuModel.kategori" Width="1.5" PointX="3.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasaMenuModel.masalar" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasaMenuModel.personel" Width="1.5" PointX="0.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasaMenuModel.siparis" Width="1.5" PointX="8.25" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasaMenuModel.sysdiagrams" Width="1.5" PointX="2.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MasaMenuModel.urunler" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="MasaMenuModel.FK_masalar_grup" ManuallyRouted="false" />
+        <AssociationConnector Association="MasaMenuModel.fk_hesap" ManuallyRouted="false" />
+        <AssociationConnector Association="MasaMenuModel.FK__urunler__kId__5165187F" ManuallyRouted="false" />
+        <AssociationConnector Association="MasaMenuModel.FK__siparis__masa_id__5629CD9C" ManuallyRouted="false" />
+        <AssociationConnector Association="MasaMenuModel.FK__siparis__urun_id__571DF1D5" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

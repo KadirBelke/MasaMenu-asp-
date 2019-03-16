@@ -1,0 +1,192 @@
+﻿@using MasaMenu.Models;
+@{
+    ViewBag.Title = "Index";
+}
+<style> 
+    .btn-primary{
+         background: #f0ad4e none repeat scroll 0 0;
+        border-color: #f0ad4e;
+        border-radius: 3px;
+        color: #ffffff;
+        font-size: 14px;
+        width: 100px;
+        height: 70px;
+        line-height: 50px;
+        padding: 0;
+    }
+    .list-group-item {
+    width: 100%;
+    text-align: left;
+    }
+    .my-button{
+        margin-top: 5px;
+        padding: 10px !important;
+    }
+    .my-button1{
+        background-color:#FF4500 !important;
+    }
+    .my-button2{
+        background-color:#FF6347 !important;
+    }
+    .menu{
+        width: 300px;
+        height: 40px;
+        line-height: 40px;
+        color: red;
+        border-radius: 4px;
+        float: left;
+    }
+    table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+<head>
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet"- />
+    <link href="~/Content/css/simple-sidebar.css" rel="stylesheet" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+<ul>
+    @{MasaMenuEntities db = new MasaMenuEntities(); }
+    @*<div class="row">
+
+        <div class="btn-group" role="group" aria-label="Default button group">
+            <div class="panel list-group">
+                @{ var gquery = from g in db.grup select g; }
+                @foreach (var item in gquery)
+                {
+                    <a href="?grup=@item.id">
+                        <button type="button" class="btn btn-secondary">@item.adi</button>
+
+                    </a>
+                }
+            </div>
+        </div>
+    </div>*@
+
+    @{
+        if (Request["grup"] == null)
+        {
+            var mquery = from m in db.masalar select m;
+            foreach (var item in mquery)
+            {
+                string b = "modal" + @item.id;
+                string c = b + "h";
+                <button type="button" data-toggle="modal" data-target="#@b" class="btn-primary btn-lg my-button">@item.adi.Trim().ToUpper().Replace(" ", "")</button>
+                <div class="modal fade " id=@b tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                     <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                <h3 class="modal-title" id="lineModalLabel">@item.adi.ToUpper()</h3>
+                            </div>
+                            <div class="modal-body">
+                            @{
+                                var uquery = from u in db.urunler select u;
+                                foreach (var i in uquery)
+                                {
+                                    using (Html.BeginForm())
+                                    {
+                                        <input type="hidden" value="@i.id" name="urun" />
+                                        <input type="hidden" value="@item.id" name="masa" />
+                                        <button type="button" class="btn btn-secondary my-button">@i.ad</button>
+                                    }
+
+                                    @*<button type="button" class="btn btn-secondary my-button" id="@i.id">@i.ad</button>*@
+                                }
+                            }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                                var squery = (from s in db.siparis where s.masa_id == item.id select s);
+                                if (squery.FirstOrDefault() != null)
+                                {
+                                    <button type="button" data-toggle="modal" data-target="#@c" class="btn-primary btn-lg my-button my-button1">HESAP</button>
+                                    <div class="modal fade " id=@c tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                                    <h3 class="modal-title" id="lineModalLabel">@item.adi.ToUpper()</h3>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <table >
+                                                        <tr>
+                                                            <th>Urun</th>
+                                                            <th>Fiyat</th>
+                                                        </tr>
+                                                        @{
+                                                            double ttl=0;
+                                                            foreach (var i in squery)
+                                                            {
+
+                                                                var uquery1 = (from u in db.urunler where u.id == i.urun_id select u).FirstOrDefault();
+                                                                    <tr>
+                                                                    <th>@uquery1.ad</th>
+                                                                    <th>@uquery1.fiyati ₺</th>
+                                                                </tr>
+                                                                ttl +=Convert.ToDouble(uquery1.fiyati);
+                                                            }
+                                                            }
+                                                    </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Hesap Öde</button>
+                                                    <h4  style="left:0%">Toplam Tutar : @ttl ₺ </h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                            <button type="button" data-toggle="modal" data-target="#@c" class="btn-primary btn-lg my-button2" disabled>HESAP</button>
+
+                                                                                }
+
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            int a = Convert.ToInt32(Request["grup"]);
+                                                                            var mquery = from m in db.masalar where m.gId == a select m;
+                                                                            foreach (var item in mquery)
+                                                                            {
+                                                                                string b = "modal" + @item.id;
+                <button type="button" data-toggle="modal" data-target="#@b" class="btn-primary btn-lg my-button">@item.adi.ToUpper()</button>
+                <div class="modal fade" id=@b tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                                <h3 class="modal-title" id="lineModalLabel">@item.adi.ToUpper()</h3>
+                            </div>
+                            <div class="modal-body">
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                                                                                }
+                                                                            }
+                                                                        }
+</ul>
+
+
+
